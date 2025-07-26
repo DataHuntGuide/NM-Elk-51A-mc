@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Mexico Heatmap - Updated Coordinates</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    .leaflet-control-layers {
+      background: white;
+      padding: 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script src="https://unpkg.com/leaflet-providers/leaflet-providers.js"></script>
+
+  <script>
+const coords = [
+  [36.55317, -106.33333],
+  [36.55898, -105.98223],
+  [36.52438, -106.47609],
+  [36.51974, -106.47772],
+  [36.57777, -106.34696],
+  [36.59131, -106.32954],
+  [36.56798, -106.34616],
+  [36.57122, -105.9536],
+  [36.55369, -105.97095],
+  [36.35739, -106.18441],
+  [36.34937, -106.17377],
+  [36.36726, -106.19423],
+  [36.36433, -106.18898]
+];
+
+const map = L.map('map').setView([36.49666, -106.22754], 11);
+
+const topo = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+  { attribution: 'Tiles &copy; Esri' }
+).addTo(map);
+
+const trails = L.tileLayer.provider('OpenTopoMap');
+const boundaries = L.tileLayer.provider('OpenStreetMap.HOT');
+
+const heatData = coords.map(c => [c[0], c[1], 8]);
+const heat = L.heatLayer(heatData, {
+  radius: 70,
+  blur: 40,
+  maxZoom: 17,
+  max: 3.0,
+  minOpacity: 0.5,
+  gradient: {
+    0.0: 'purple',
+    0.2: 'blue',
+    0.4: 'cyan',
+    0.6: 'lime',
+    0.8: 'yellow',
+    1.0: 'red'
+  }
+}).addTo(map);
+
+const gpsMarkers = L.layerGroup();
+coords.forEach(([lat, lng]) => {
+  L.circleMarker([lat, lng], {
+    radius: 5,
+    color: 'black',
+    fillColor: 'white',
+    fillOpacity: 0.8
+  })
+  .bindPopup(`${lat.toFixed(5)}, ${lng.toFixed(5)}`)
+  .addTo(gpsMarkers);
+});
+gpsMarkers.addTo(map);
+
+const overlays = {
+  "GPS Markers": gpsMarkers,
+  "Heatmap": heat,
+  "Boundaries": boundaries,
+  "Trails": trails
+};
+
+L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+  </script>
+</body>
+</html>
