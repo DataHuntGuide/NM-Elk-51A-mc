@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Mexico Heatmap - Updated Coordinates</title>
+  <title>New Mexico Heatmap - Final Coordinates</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
@@ -40,10 +40,29 @@ const coords = [
   [36.35739, -106.18441],
   [36.34937, -106.17377],
   [36.36726, -106.19423],
-  [36.36433, -106.18898]
+  [36.36433, -106.18898],
+  [36.22578, -106.27244],
+  [36.52838, -106.47593],
+  [36.53109, -106.47273],
+  [36.52865, -106.47659],
+  [36.52757, -106.46665],
+  [36.53027, -106.47119],
+  [36.53574, -106.45786],
+  [36.53461, -106.45495],
+  [36.57925, -106.43398],
+  [36.59563, -106.43281],
+  [36.59563, -106.43281],
+  [36.57886, -106.43436],
+  [36.57886, -106.43436],
+  [36.59833, -106.41206],
+  [36.59069, -106.38498],
+  [36.58769, -106.37885],
+  [36.60244, -106.42876],
+  [36.59168, -106.43638],
+  [36.51921, -106.47664]
 ];
 
-const map = L.map('map').setView([36.49666, -106.22754], 11);
+const map = L.map('map').setView([36.52553, -106.34976], 11);
 
 const topo = L.tileLayer(
   'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
